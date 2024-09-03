@@ -17,13 +17,28 @@ const response = await fetch(apiUrl)
 const data = await response.json()
 
 const movieListElement = document.querySelector("#movie-list")
-console.log(movieListElement)
+
+const templateString = `
+    <img>
+    <p class="title"></p>
+`
 
 for (const movie of data) {
-    console.log(movie)
-
-    const movieCard = document.createElement("li")
-    movieCard.textContent = movie.title
-
+    const movieCard = createMovieCard(movie)
     movieListElement.append(movieCard)
+}
+
+function createMovieCard(movie) {
+    const movieCard = document.createElement("li")
+    movieCard.className = "movie-card"
+
+    movieCard.innerHTML = templateString
+
+    const poster = movieCard.querySelector("img")
+    poster.src = movie.image
+
+    const title = movieCard.querySelector(".title")
+    title.textContent = movie.title
+
+    return movieCard
 }
